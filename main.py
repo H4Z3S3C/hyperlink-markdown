@@ -3,30 +3,63 @@ from flask import Flask, request
 app = Flask(__name__)
 
 @app.route("/")
-def generate_markdown():
-    title = request.args.get("title", "Title")
-    description = request.args.get("description", "No description provided.")
-    url = request.args.get("url", "https://example.com")
-    image = request.args.get("image", "")
-    author = request.args.get("author", "Unknown Author")
-    footer = request.args.get("footer", "")
+def generate_embed():
+    title = request.args.get("title")
+    description = request.args.get("description")
+    image = request.args.get("image")
+    url = request.args.get("url")
+    author = request.args.get("author")
 
-    markdown_parts = []
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta property="og:type" content="website">
+    """
 
     if title:
-        markdown_parts.append(f"[{title}]({url})")
+        html_content += f'<meta property="og:title" content="{title}">\n'
+        html_content += f'<title>{title}</title>\n'
+    
     if description:
-        markdown_parts.append(f"{description}")
-    if author:
-        markdown_parts.append(f"by {author}")
+        html_content += f'<meta property="og:description" content="{description}">\n'
+        html_content += f'<meta name="twitter:description" content="{description}">\n'
+    
     if image:
-        markdown_parts.append(f"![Image]({image})")
-    if footer:
-        markdown_parts.append(f"> *{footer}*")
+        html_content += f'<meta property="og:image" content="{image}">\n'
+        html_content += f'<meta name="twitter:image" content="{image}">\n'
+    
+    if url:
+        html_content += f'<meta property="og:url" content="{url}">\n'
+    
+    if author:
+        html_content += f'<meta name="twitter:card" content="summary_large_image">\n'
+        html_content += f'<meta name="twitter:title" content="{title if title else "No Title"}">\n'
 
-    markdown_output = "\n\n".join(markdown_parts)
+    html_content += """
+    </head>
+    <body>
+    """
 
-    return f"<pre>{markdown_output}</pre>"
+    if title:
+        html_content += f"<h1>{title}</h1>\n"
+    
+    if description:
+        html_content += f"<p>{description}</p>\n"
+    
+    if image:
+        html_content += f'<img src="{image}" alt="Embed Image" style="max-width:100%;">\n'
+
+    if author:
+        html_content += f"<p><small>By {author}</small></p>\n"
+
+    html_content += """
+    </body>
+    </html>
+    """
+    
+    return html_content
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
