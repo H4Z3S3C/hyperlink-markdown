@@ -4,7 +4,6 @@ app = Flask(__name__)
 
 @app.route("/")
 def generate_markdown():
-    # Get query parameters
     title = request.args.get("title", "Title")
     description = request.args.get("description", "No description provided.")
     url = request.args.get("url", "https://example.com")
@@ -12,18 +11,18 @@ def generate_markdown():
     author = request.args.get("author", "Unknown Author")
     footer = request.args.get("footer", "")
 
-    # Build Markdown response
     markdown_parts = []
-    
-    markdown_parts.append(f"**[{title}]({url})**")  # Title as a hyperlink
-    markdown_parts.append(f"> {description}")  # Blockquote for description
-    markdown_parts.append(f"_by {author}_")  # Italic author
 
+    if title:
+        markdown_parts.append(f"[{title}]({url})")
+    if description:
+        markdown_parts.append(f"{description}")
+    if author
+        markdown_parts.append(f"by {author}")
     if image:
-        markdown_parts.append(f"![Image]({image})")  # Image URL
-
+        markdown_parts.append(f"![Image]({image})")
     if footer:
-        markdown_parts.append(f"> *{footer}*")  # Footer in italics
+        markdown_parts.append(f"> *{footer}*")
 
     markdown_output = "\n\n".join(markdown_parts)
 
