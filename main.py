@@ -17,7 +17,7 @@ def generate_markdown():
         markdown_parts.append(f"[{title}]({url})")
     if description:
         markdown_parts.append(f"{description}")
-    if author
+    if author:
         markdown_parts.append(f"by {author}")
     if image:
         markdown_parts.append(f"![Image]({image})")
