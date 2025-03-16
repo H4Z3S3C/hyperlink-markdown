@@ -39,7 +39,7 @@ def generate_embed():
         html_content += f'<meta name="twitter:title" content="{title if title else "No Title"}">\n'
 
     if colour:
-        html_content += f'<style>\nbody {{ background-color: {colour}; }}\n</style>\n'
+        html_content += f'<meta name="theme-color" content="{colour}">\n'
 
     html_content += """
     </head>
