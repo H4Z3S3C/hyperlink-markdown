@@ -9,6 +9,7 @@ def generate_embed():
     image = request.args.get("image")
     url = request.args.get("url")
     author = request.args.get("author")
+    color = request.args.get("colour")
 
     html_content = """
     <!DOCTYPE html>
@@ -36,6 +37,9 @@ def generate_embed():
     if author:
         html_content += f'<meta name="twitter:card" content="summary_large_image">\n'
         html_content += f'<meta name="twitter:title" content="{title if title else "No Title"}">\n'
+
+    if colour:
+        html_content += f'<style>\nbody {{ background-color: {colour}; }}\n</style>\n'
 
     html_content += """
     </head>
