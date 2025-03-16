@@ -9,7 +9,7 @@ def generate_embed():
     image = request.args.get("image")
     url = request.args.get("url")
     author = request.args.get("author")
-    color = request.args.get("colour")
+    colour = request.args.get("colour")
 
     html_content = """
     <!DOCTYPE html>
